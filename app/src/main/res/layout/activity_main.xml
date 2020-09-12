@@ -6,68 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <ImageView
-        android:id="@+id/imgview1"
-        android:layout_width="match_parent"
-        android:layout_height="246dp"
 
+        android:layout_width="412dp"
+        android:layout_height="274dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="193dp" />
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="-5dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="102dp"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+        android:id="@+id/imgview1">
+
+    </ImageView>
 
     <TextView
-        android:layout_width="341dp"
-        android:layout_height="64dp"
+        android:id="@+id/txtview1"
+        android:layout_width="wrap_content"
+        android:layout_height="73dp"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="393dp"
-        android:textSize="27sp"
-        android:fontFamily="sans-serif"
-        android:text="Hi Scan for your Image to Text Conversion"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="66dp"
+        android:layout_marginTop="305dp"
+        android:layout_marginEnd="46dp"
+        android:layout_marginBottom="353dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:text="View Text from Image"
+        android:textSize="26sp">
+
+    </TextView>
 
     <Button
         android:id="@+id/btncaptureimage"
-        android:layout_width="296dp"
-        android:layout_height="78dp"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="59dp"
-        android:layout_marginTop="517dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginBottom="136dp"
-        android:text="Recognize Text"
-        android:textAllCaps="false">
-
-    </Button>
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="249dp"></Button>
 
     <Button
         android:id="@+id/btnrecognisetxt"
-        android:layout_width="296dp"
-        android:layout_height="78dp"
+        android:layout_width="340dp"
+        android:layout_height="65dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="404dp"
-        android:layout_marginEnd="65dp"
-        android:layout_marginBottom="83dp"
-        android:text="Capture Image"
-        android:textAllCaps="false">
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="138dp">
 
     </Button>
 

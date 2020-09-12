@@ -10,7 +10,7 @@ import android.view.View;
 import android.webkit.PermissionRequest;
 import android.widget.Button;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btncaptureimage;
     private Button btnrecognisetxt;
     private ImageView imgview1;
+    private TextView txtview1;
 
 
     @Override
@@ -36,13 +37,21 @@ public class MainActivity extends AppCompatActivity {
         btncaptureimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
 
+
+        btnrecognisetxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
 
 
     }
+
 
 
 
@@ -56,11 +65,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             imgview1.setImageBitmap(imageBitmap);
-
         }
     }
 
