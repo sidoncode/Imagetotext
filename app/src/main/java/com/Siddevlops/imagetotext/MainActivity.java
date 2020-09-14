@@ -1,16 +1,30 @@
 package com.Siddevlops.imagetotext;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.PermissionRequest;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.face.FirebaseVisionFace;
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnrecognisetxt;
     private ImageView imgview1;
     private TextView txtview1;
+    private Bitmap imageBitmap;
 
 
     @Override
@@ -33,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
         btncaptureimage = (Button) findViewById(R.id.btncaptureimage);
         btnrecognisetxt = (Button) findViewById(R.id.btnrecognisetxt);
         imgview1 = (ImageView) findViewById(R.id.imgview1);
+        txtview1 = (TextView) findViewById(R.id.txtview1);
 
         btncaptureimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
+                txtview1.setText("");
             }
         });
 
@@ -45,15 +62,12 @@ public class MainActivity extends AppCompatActivity {
         btnrecognisetxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Image_to_text();
+                //Log.i("recognise btn clicked",)
 
             }
         });
-
-
     }
-
-
-
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -66,11 +80,48 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+             imageBitmap = (Bitmap) extras.get("data");
             imgview1.setImageBitmap(imageBitmap);
         }
     }
 
+    protected void Image_to_text(){
+        FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
+
+        FirebaseVisionTextDetector firebaseVisionTextDetector=  FirebaseVision.getInstance().getVisionTextDetector();
+        firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+            @Override
+            public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                Log.i("image to txt Sucess","on image read Success");
+                Image_to_text(firebaseVisionText);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Log.i("image to txt fail","on fail of image to text");
+                e.printStackTrace();
+
+            }
+        });
+    }
+
+    public void Image_to_text(FirebaseVisionText firebaseVisionText) {
+
+        List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
+        if(blockList.size() == 0){
+            Toast.makeText(getApplicationContext(),"No Text Found in Image",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            for(FirebaseVisionText.Block block: firebaseVisionText.getBlocks()){
+                String text = block.getText();
+                    txtview1.setText(text);
+                    Log.i("image to txt converted",text);
+            }
+        }
+
+    }
 
 
 }
