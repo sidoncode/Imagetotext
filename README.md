@@ -2,7 +2,7 @@
 Using FIREBASE MLKIT
 
 ### prequesites link
-## CAMERA PERMISSINO
+## CAMERA PERMISSION
 https://developer.android.com/training/camera/photobasics#java
 <br>
 ## REALEASE NOTES FIREBASE
