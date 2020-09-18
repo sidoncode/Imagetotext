@@ -12,3 +12,8 @@ https://firebase.google.com/support/release-notes/android
 https://developers.google.com/ml-kit/vision/text-recognition/android
 
 ##ALL THE DEPENDENCIES LIST
+
+
+
+
+### Updating the process of the pic clicked by the user
