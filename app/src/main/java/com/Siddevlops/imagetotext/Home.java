@@ -1,6 +1,8 @@
 package com.Siddevlops.imagetotext;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -31,8 +33,11 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
+import com.nabinbhandari.android.permissions.PermissionHandler;
+import com.nabinbhandari.android.permissions.Permissions;
 
 import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,7 +125,13 @@ public class Home extends Fragment {
         btnrecognisetxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            
+                if(ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(getActivity().getApplicationContext(),"permission ALREADY given",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    requestinternetPermissions();
+                }
+
                 Image_to_text();
                 //Log.i("recognise btn clicked",)
             }
@@ -187,6 +198,43 @@ public class Home extends Fragment {
 
     }
 
+    private void requestinternetPermissions(){
+
+        if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.INTERNET)){
+            new AlertDialog.Builder(getActivity()).setTitle("Permission Needed").setMessage("This permission is needed")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(getActivity(),new String[]{
+                                    Manifest.permission.INTERNET},INTERNET_PERMISSION_CODE);
+
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+
+        }else {
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.INTERNET},INTERNET_PERMISSION_CODE);
+        }
+
+
+    }
+
+    public void onRequestPermissionsResult(int requestcode,@NonNull String [] permissions,@NonNull int [] grantResults) {
+        if(requestcode == INTERNET_PERMISSION_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(getActivity(),"Permission GRANTED",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getActivity(),"Permissino not granted",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
 }

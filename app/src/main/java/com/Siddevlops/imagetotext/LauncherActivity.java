@@ -21,7 +21,7 @@ public class LauncherActivity extends AppCompatActivity {
         EasySplashScreen config = new EasySplashScreen(LauncherActivity.this)
                 .withFullScreen()
                 .withTargetActivity(MainActivity.class)
-                .withSplashTimeOut(5000)
+                .withSplashTimeOut(1000)
                 .withAfterLogoText("after logo")
                 .withBeforeLogoText("")
                 .withBackgroundColor(Color.parseColor("#ffffff"))
