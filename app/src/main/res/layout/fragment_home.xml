@@ -54,6 +54,7 @@
             android:inputType="textMultiLine"
             android:paddingLeft="20dp"
             android:paddingTop="0dp"
+            android:paddingRight="20dp"
             android:text=""
             android:textSize="26sp"></EditText>
 
