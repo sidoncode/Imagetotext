@@ -23,11 +23,11 @@ public class LauncherActivity extends AppCompatActivity {
                 .withTargetActivity(MainActivity.class)
                 .withSplashTimeOut(5000)
                 .withAfterLogoText("after logo")
-                .withBeforeLogoText("before logo")
-                .withBackgroundColor(Color.parseColor("#1a1b29"))
+                .withBeforeLogoText("")
+                .withBackgroundColor(Color.parseColor("#ffffff"))
                 .withFooterText("Header")
                 .withHeaderText("Footer")
-                .withLogo(R.drawable.common_google_signin_btn_icon_dark);
+                .withLogo(R.drawable.siddharthtworemovebgpreview);
 
         config.getHeaderTextView().setTextColor(Color.WHITE);
         config.getFooterTextView().setTextColor(Color.WHITE);
@@ -36,13 +36,6 @@ public class LauncherActivity extends AppCompatActivity {
 
         View easySplashScreen = config.create();
         setContentView(easySplashScreen);
-
-
-
-
-
-
-
 
     }
 }

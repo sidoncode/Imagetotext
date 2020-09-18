@@ -1,10 +1,14 @@
 package com.Siddevlops.imagetotext;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -85,6 +89,8 @@ public class Home extends Fragment {
     private ImageView imgview1;
     private TextView txtview1;
     private Bitmap imageBitmap;
+    private static final int INTERNET_PERMISSION_CODE = 100;
+    private static final int STORAGE_PERMISSION_CODE = 101;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,6 +120,7 @@ public class Home extends Fragment {
         btnrecognisetxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            
                 Image_to_text();
                 //Log.i("recognise btn clicked",)
             }
@@ -179,5 +186,7 @@ public class Home extends Fragment {
         }
 
     }
+
+
 
 }
