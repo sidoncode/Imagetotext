@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,87 +27,61 @@ import com.nabinbhandari.android.permissions.PermissionHandler;
 import com.nabinbhandari.android.permissions.Permissions;
 
 
+import java.sql.Time;
 import java.util.List;
-
-/**
-    public class MainActivity extends AppCompatActivity {
-
-
-
-
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-
-
-        }
-
-        private void dispatchTakePictureIntent() {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
-        }
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                 imageBitmap = (Bitmap) extras.get("data");
-                imgview1.setImageBitmap(imageBitmap);
-            }
-        }
-
-        protected void Image_to_text(){
-            FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
-
-            FirebaseVisionTextDetector firebaseVisionTextDetector=  FirebaseVision.getInstance().getVisionTextDetector();
-            firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                @Override
-                public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                    Log.i("image to txt Sucess","on image read Success");
-                    Image_to_text(firebaseVisionText);
-
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-
-                    Log.i("image to txt fail","on fail of image to text");
-                    e.printStackTrace();
-
-                }
-            });
-        }
-
-        public void Image_to_text(FirebaseVisionText firebaseVisionText) {
-
-            List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
-            if(blockList.size() == 0){
-                Toast.makeText(getApplicationContext(),"No Text Found in Image",Toast.LENGTH_SHORT).show();
-            }
-            else {
-                for(FirebaseVisionText.Block block: firebaseVisionText.getBlocks()){
-                    String text = block.getText();
-                        txtview1.setText(text);
-                        Log.i("image to txt converted",text);
-                }
-            }
-
-        }
-
-
-    }**/
-
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+
+    private InterstitialAd mInterstitialAd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-9094130848994954/1971583337");
+
+        try {
+            prepare();
+            if(mInterstitialAd.isLoaded()){
+                Log.i("ad","add is live");
+            }
+
+            ScheduledExecutorService
+                    scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+            scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(mInterstitialAd.isLoaded()){
+                                mInterstitialAd.show();
+                            }
+                            else {
+                                Log.i("ad","add is not shown");
+                            }
+                            prepare();
+                        }
+                    });
+
+                }
+            },10,30, TimeUnit.SECONDS);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+
 
         BottomNavigationView btnNav = findViewById(R.id.bottomNavigationView);
         btnNav.setOnNavigationItemSelectedListener(navlistener);
@@ -113,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_layout,new Home()).commit();
     }
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -135,6 +112,17 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+
+    public void  prepare(){
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-9094130848994954/1971583337");
+
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
+    }
+
 
 
 

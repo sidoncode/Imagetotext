@@ -15,11 +15,14 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/design"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="com.google.mlkit.vision.DEPENDENCIES"
                 android:value="ocr" />
+
+
 
         </activity>
         <activity android:name=".LauncherActivity"
@@ -30,6 +33,10 @@
             </intent-filter>
 
         </activity>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9094130848994954/1971583337"
+            ></meta-data>
     </application>
 
 </manifest>
