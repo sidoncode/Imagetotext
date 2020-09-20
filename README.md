@@ -11,7 +11,7 @@ https://firebase.google.com/support/release-notes/android
 ## ML KIT (LATEST VERSION)
 https://developers.google.com/ml-kit/vision/text-recognition/android
 
-##ALL THE DEPENDENCIES LIST
+## ALL THE DEPENDENCIES LIST
 
 
 
